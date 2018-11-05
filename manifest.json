@@ -1,0 +1,17 @@
+{
+"name" : "Cookie Cleaner",
+"version": "1.0",
+"description": "Clean cookie of specfic domain, instead completly deleting cookie.",
+"permissions" : [
+	"cookies",
+	"https://*/",
+	"http://*/",
+	"activeTab"
+],
+"browser_action": {},
+"background": {
+    "scripts": ["background.js"],
+    "persistent": false
+},
+"manifest_version":2
+}
