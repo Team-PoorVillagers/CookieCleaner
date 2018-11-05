@@ -1,0 +1,17 @@
+{
+	"manifest_version" : 2,
+
+	"name" : "Cookie Cleaner" ,
+
+	"description" : "remove cookies for a particular website" ,
+
+	"version" : "1.0",
+
+	"browser_action" : {},
+
+	"permissions": ["cookies","https://*/","http://*/" , "activeTab" , "tabs"],
+
+	"background": {
+    	"scripts": ["background.js"]
+  	}
+}
