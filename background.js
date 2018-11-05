@@ -1,19 +1,18 @@
 chrome.browserAction.onClicked.addListener(function(tab) {
-	var str = tab.url;
-	var hostname = (new URL(str)).hostname;
-	domain_ = hostname;
-	domain_ = domain_.split(".")
-	domain_ = domain_[domain_.length - 2]
-	var regex1 = RegExp(domain_);
-	chrome.cookies.getAll({}, function(cookies) {
-	    for(var i=0; i<cookies.length;i++) {
-	      var cookie_domain = cookies[i].domain;
-	      var result = regex1.test(cookie_domain);
-	      if (result == true)
-	      {
-	      	var url = "http" + (cookies[i].secure ? "s" : "") + "://" + cookies[i].domain + cookies[i].path;
-	      	chrome.cookies.remove({"url": url, "name": cookies[i].name});
-	      }
-	    }
-	  });
+	chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
+    	var url = tabs[0].url;
+    	var regex =  /:\/\/(.[^/]+)/;
+    	domain = url.match(regex)[1];
+    	var subdomains = domain.split(".");
+    	var subdomain = subdomains.slice(-2,-1);
+    	var regex_domain = new RegExp(subdomain);
+    	chrome.cookies.getAll({} , function(cookies){
+    		for(var i=0; i<cookies.length;i++) {
+    			var cookies_domain = cookies[i].domain;
+    			if(regex_domain.test(cookies_domain) == true){
+        			chrome.cookies.remove({url : "http" + (cookies[i].secure ? "s" : "")  + "://" + cookies[i].domain  + cookies[i].path, name: cookies[i].name});
+        		}
+    		}
+    	});
+	});
 });
